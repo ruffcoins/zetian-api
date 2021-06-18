@@ -4,7 +4,7 @@
   "description": "A car wash management and point of sales api",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f ./config/prod.env node ./bin/www",
+    "start": "env-cmd -f ./config/prod.env node index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon index.js"
   },
   "author": "Anthony Nzube",

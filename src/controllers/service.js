@@ -2,7 +2,10 @@ const Service = require('../models/service')
 
 class ServiceController {
     static async addService(req, res) {
-        const service = new Service(req.body)
+        const service = new Service({
+            name: req.body.name.toLowerCase(),
+            amount: req.body.amount
+        })
 
         try {
             await service.save()

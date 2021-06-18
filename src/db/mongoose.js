@@ -5,5 +5,5 @@ mongoose.connect(process.env.MONGO_URL, {
     useCreateIndex: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
-}).then((success) => console.log('Connection to mongoose successfull'))
-    .catch((err) => console.log('ould not connect to mongoose ', err));
+}).then((success) => console.log('Connection to mongo successfull'))
+    .catch((err) => console.log('Could not connect to mongo ', err));

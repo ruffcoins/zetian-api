@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: '({VALUE}) is already in use, try another',
+        unique: true,
 
     },
     password: {
@@ -24,7 +24,6 @@ const userSchema = new mongoose.Schema({
         }
     },
     employee_id: {
-        unique: '({VALUE}) This employee is already assigned to a user account',
         type: mongoose.Schema.Types.ObjectId,
         ref: 'employee'
     },

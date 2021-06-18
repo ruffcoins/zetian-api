@@ -49,11 +49,6 @@ class SaleController {
             //calculate total amount form the amount array
             totalAmount = serviceAmountList.reduce((a, b) => a + b, 0);
 
-            console.log(serviceList);
-            // console.log(customer._id);
-            // console.log(serviceIdList);
-            // console.log(totalAmount);
-
             const sale = new Sale({
                 customer_id: customer._id,
                 service_id: serviceIdList,
@@ -62,9 +57,9 @@ class SaleController {
                 totalAmount: totalAmount
             });
 
-            // await sale.save();
+            await sale.save();
             res.status(201).send({ success: true, message: sale });
-
+            
         } catch (e) {
             res.status(400).send({ success: false, message: e })
         }

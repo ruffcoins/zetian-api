@@ -62,10 +62,7 @@ class EmployeeController {
         }
 
         try {
-            const employee = await Employee.findByIdAndUpdate(
-                req.params.id,
-                req.body.toLowerCase(),
-                { new: true, runValidators: true })
+            const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
 
             if (!employee) {
                 return res.status(404).send({ success: false, message: "Employee not found" })

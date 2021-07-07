@@ -64,18 +64,7 @@ class EmployeeController {
         try {
             const employee = await Employee.findByIdAndUpdate(
                 req.params.id,
-                new Employee({
-                    firstName: req.body.firstName.toLowerCase(),
-                    lastName: req.body.lastName.toLowerCase(),
-                    phoneNumber: req.body.phoneNumber,
-                    email: req.body.email,
-                    address: req.body.address,
-                    salary: req.body.salary,
-                    bankName: req.body.bankName,
-                    accountNumber: req.body.accountNumber,
-                    accountName: req.body.accountName,
-                    comments: req.body.comments
-                }),
+                req.body.toLowerCase(),
                 { new: true, runValidators: true })
 
             if (!employee) {

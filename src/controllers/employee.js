@@ -5,7 +5,7 @@ class EmployeeController {
         const employee = new Employee({
             firstName: req.body.firstName.toLowerCase(),
             lastName: req.body.lastName.toLowerCase(),
-            phoneNumber: req.body.lastName,
+            phoneNumber: req.body.phoneNumber,
             email: req.body.email,
             address: req.body.address,
             salary: req.body.salary,

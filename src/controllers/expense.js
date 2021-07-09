@@ -1,3 +1,4 @@
+const Employee = require('../models/employee');
 const Expense = require('../models/expense')
 
 class ExpenseController {
@@ -29,17 +30,21 @@ class ExpenseController {
         const _id = req.params.id
 
         try {
-            const expense = await Expense.findById(_id)
+            const expense = await Expense.findById(_id);
+            const employee = await Employee.findById(expense.employee_id);
+            const employeeName = employee.firstName + ' ' + employee.lastName;
+
 
             if (!expense) {
                 return res.status(404).send({ success: false, message: "Expense not found" });
             }
 
-            res.send({ success: true, message: expense })
+            res.send({ success: true, message: expense, employeeName });
         } catch (e) {
             res.status(500).send({ success: false, message: "Expense does not exist" })
         }
     }
+
 }
 
 module.exports = ExpenseController;

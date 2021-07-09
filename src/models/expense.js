@@ -20,11 +20,15 @@ const Expense = mongoose.model('Expense', {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'employee'
     },
+    employee_name: {
+        type: String,
+        trim: true
+    },
     date: {
         type: Date,
         required: true,
     },
-    
+
 });
 
 module.exports = Expense;

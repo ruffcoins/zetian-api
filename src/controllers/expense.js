@@ -3,9 +3,23 @@ const Expense = require('../models/expense')
 
 class ExpenseController {
     static async addExpense(req, res) {
-        const expense = new Expense(req.body)
+        
 
         try {
+            const employeeId = req.body.employee_id;
+
+            const employee = await Employee.findById(employeeId);
+
+            const employeeName = employee.firstName + ' ' + employee.lastName;
+
+            const expense = new Expense({
+                expense: req.body.expense,
+                purpose: req.body.purpose,
+                amount: req.body.amount,
+                date: req.body.date,
+                employee_id: req.body.employee_id,
+                employee_name: employeeName
+            });
             await expense.save()
             res.status(201).send({ success: true, message: expense })
         } catch (e) {
@@ -18,8 +32,10 @@ class ExpenseController {
     }
 
     static async viewExpenses(req, res) {
+
         try {
-            const expenses = await Expense.find({})
+            const expenses = await Expense.find({});
+
             res.send({ success: true, message: expenses })
         } catch (e) {
             res.status(500).send({ success: false, message: e })

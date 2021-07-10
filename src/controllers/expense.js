@@ -34,7 +34,7 @@ class ExpenseController {
     static async viewExpenses(req, res) {
 
         try {
-            const expenses = await Expense.find({}).sort({ created_at: -1 });
+            const expenses = await Expense.find({}).sort({ created_at: 1 });
 
             res.send({ success: true, message: expenses })
         } catch (e) {

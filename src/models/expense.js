@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const Expense = mongoose.model('Expense', {
+const expenseSchema = new mongoose.Schema({
     expense: {
         type: String,
         trim: true
@@ -29,6 +29,10 @@ const Expense = mongoose.model('Expense', {
         required: true,
     },
 
-});
+},
+    { timestamps: { createdAt: 'created_at' } }
+);
+
+const Expense = mongoose.model('Expense', expenseSchema);
 
 module.exports = Expense;

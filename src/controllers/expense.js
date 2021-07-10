@@ -3,7 +3,7 @@ const Expense = require('../models/expense')
 
 class ExpenseController {
     static async addExpense(req, res) {
-        
+
 
         try {
             const employeeId = req.body.employee_id;
@@ -42,6 +42,17 @@ class ExpenseController {
         }
     }
 
+    static async viewRecentExpenses(req, res) {
+
+        try {
+            const expenses = await Expense.find({}).sort({ created_at: -1 }).limit(10);
+
+            res.send({ success: true, message: expenses })
+        } catch (e) {
+            res.status(500).send({ success: false, message: e })
+        }
+    }
+
     static async viewExpense(req, res) {
         const _id = req.params.id
 
@@ -60,6 +71,8 @@ class ExpenseController {
             res.status(500).send({ success: false, message: "Expense does not exist" })
         }
     }
+
+
 
 }
 

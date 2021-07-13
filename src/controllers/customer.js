@@ -27,35 +27,65 @@ class CustomerController {
                 res.status(201).send({ success: true, message: customer });
             } catch (e) {
 
-                res.status(400).send({ success: false, message: e })
+                res.status(400).send({ success: false, message: e });
             }
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate Car Registeration Number
                 return res.status(422).send({ success: false, message: "Car Registeration Number already exists" });
             }
-            res.status(400).send({ success: false, message: e })
+            res.status(400).send({ success: false, message: e });
         }
 
     }
 
     static async viewCustomers(req, res) {
+        let totalAmount = 0;
+        let allCustomers = [];
+
         try {
-            const customers = await Customer.find({})
-            res.send({ success: true, message: customers })
+            const customers = await Customer.find({});
+
+            for (let i = 0; i < customers.length; i++) {
+                let amountList = [];
+
+                const customer = await Customer.findById(customers[i]._id);
+
+                const sale = await Sale.find({ "customer_id": customers[i]._id });
+                sale.forEach(element => {
+                    amountList.push(element.totalAmount);
+                });
+
+                totalAmount = amountList.reduce((a, b) => a + b, 0);
+
+                let transactionCount = sale.length;
+                let carCount = customer.cars_id.length;
+
+                let eachCustomer = {
+                    customer,
+                    totalAmount,
+                    transactionCount,
+                    carCount
+                };
+                allCustomers.push(eachCustomer);
+            }
+            
+
+            res.send({ success: true, message: allCustomers });
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            res.status(500).send({ success: false, message: e });
         }
     }
 
     static async viewCustomer(req, res) {
+
         let totalAmount = 0;
         let amountList = [];
 
-        const _id = req.params.id
+        const _id = req.params.id;
 
         try {
-            const customer = await Customer.findById(_id)
+            const customer = await Customer.findById(_id);
 
             if (!customer) {
                 return res.status(404).send({ success: false, message: "Customer not found" });

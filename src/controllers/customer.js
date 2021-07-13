@@ -1,5 +1,6 @@
 const Customer = require('../models/customer');
 const Car = require('../models/car');
+const Sale = require('../models/sale');
 
 class CustomerController {
     static async addCustomer(req, res) {
@@ -25,7 +26,7 @@ class CustomerController {
 
                 res.status(201).send({ success: true, message: customer });
             } catch (e) {
-                
+
                 res.status(400).send({ success: false, message: e })
             }
         } catch (e) {
@@ -48,6 +49,9 @@ class CustomerController {
     }
 
     static async viewCustomer(req, res) {
+        let totalAmount = 0;
+        let amountList = [];
+
         const _id = req.params.id
 
         try {
@@ -57,7 +61,21 @@ class CustomerController {
                 return res.status(404).send({ success: false, message: "Customer not found" });
             }
 
-            res.send({ success: true, message: customer })
+            const sale = await Sale.find({ "customer_id": customer._id });
+
+            // Get each amountfrom the sale list for the customer
+            sale.forEach(async (element) => {
+                amountList.push(element.totalAmount);
+            });
+
+            //calculate total amount form the amount array
+            totalAmount = amountList.reduce((a, b) => a + b, 0);
+
+            const transactionCount = sale.length;
+
+            const carCount = customer.cars_id.length;
+
+            res.send({ success: true, message: customer, transactionCount, totalAmount, carCount });
         } catch (e) {
             res.status(500).send({ success: false, message: "Customer does not exist" })
         }

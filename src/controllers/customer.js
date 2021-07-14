@@ -52,6 +52,7 @@ class CustomerController {
             for (let i = 0; i < customers.length; i++) {
                 let amountList = [];
                 let serviceList = [];
+                let services = [];
                 let customerServices = [];
 
                 // find each customer
@@ -67,7 +68,14 @@ class CustomerController {
                 //Find the services belonging to that sale
                 for (let i = 0; i < serviceList.length; i++) {
                     const service = await Service.find({ "_id": serviceList[i] });
-                    customerServices.push(service);
+                    services.push(service);
+                }
+
+                // from the list of services get each service object
+                for (let i = 0; i < services.length; i++) {
+                    services[i].forEach(element => {
+                        customerServices.push(element);
+                    }); 
                 }
 
                 // calculate the total amount on each sale

@@ -45,31 +45,41 @@ class CustomerController {
         let allCustomers = [];
 
         try {
+            /// Find all customers
             const customers = await Customer.find({});
 
+            // Perform an action for each customer in the customers list
             for (let i = 0; i < customers.length; i++) {
                 let amountList = [];
                 let serviceList = [];
                 let customerServices = [];
 
+                // find each customer
                 const customer = await Customer.findById(customers[i]._id);
 
+                //Find all sales paid for by the customer found above
                 const sale = await Sale.find({ "customer_id": customers[i]._id });
                 sale.forEach(element => {
                     amountList.push(element.totalAmount);
                     serviceList.push(element.service_id);
                 });
 
+                //Find the services belonging to that sale
                 for (let i = 0; i < serviceList.length; i++) {
                     const service = await Service.find({ "_id": serviceList[i] });
                     customerServices.push(service);
                 }
 
+                // calculate the total amount on each sale
                 totalAmount = amountList.reduce((a, b) => a + b, 0);
 
+                //calculate the number of transactions made by a customer
                 let transactionCount = sale.length;
+
+                // Count the number of cars that a xustomer has
                 let carCount = customer.cars_id.length;
 
+                // Create an object to house all require properties
                 let eachCustomer = {
                     customer,
                     sale,
@@ -78,6 +88,7 @@ class CustomerController {
                     transactionCount,
                     carCount
                 };
+                // Populate the customers array
                 allCustomers.push(eachCustomer);
             }
 

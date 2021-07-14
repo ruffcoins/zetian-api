@@ -1,6 +1,7 @@
 const Customer = require('../models/customer');
 const Car = require('../models/car');
 const Sale = require('../models/sale');
+const Service = require('../models/service');
 
 class CustomerController {
     static async addCustomer(req, res) {
@@ -48,13 +49,21 @@ class CustomerController {
 
             for (let i = 0; i < customers.length; i++) {
                 let amountList = [];
+                let serviceList = [];
+                let customerServices = [];
 
                 const customer = await Customer.findById(customers[i]._id);
 
                 const sale = await Sale.find({ "customer_id": customers[i]._id });
                 sale.forEach(element => {
                     amountList.push(element.totalAmount);
+                    serviceList.push(element.service_id);
                 });
+
+                for (let i = 0; i < serviceList.length; i++) {
+                    const service = await Service.find({ "_id": serviceList[i] });
+                    customerServices.push(service);
+                }
 
                 totalAmount = amountList.reduce((a, b) => a + b, 0);
 
@@ -63,13 +72,15 @@ class CustomerController {
 
                 let eachCustomer = {
                     customer,
+                    sale,
+                    customerServices,
                     totalAmount,
                     transactionCount,
                     carCount
                 };
                 allCustomers.push(eachCustomer);
             }
-            
+
 
             res.send({ success: true, message: allCustomers });
         } catch (e) {

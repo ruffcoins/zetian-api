@@ -40,6 +40,38 @@ class CustomerController {
 
     }
 
+    static async addCarToCustomer(req, res) {
+        const _id = req.params.id;
+
+        try {
+
+            const customer = await Customer.findById(_id);
+
+            const car = new Car({
+                carRegNo: req.body.carRegNo,
+                carMake: req.body.carMake,
+                carModel: req.body.carModel
+            });
+
+            await car.save();
+
+
+            const carId = car._id;
+
+            // find by document id and update and push item in array
+            await Customer.findByIdAndUpdate(req.params.id, { $push: { cars_id: carId } }, { new: true, runValidators: true });
+
+            const newCustomer = await Customer.findById(_id);
+
+            res.send({ success: true, message: newCustomer });
+
+        } catch (e) {
+
+            res.status(400).send({ success: false, message: e });
+        }
+
+    }
+
     static async viewCustomers(req, res) {
         let totalAmount = 0;
         let allCustomers = [];
@@ -53,10 +85,17 @@ class CustomerController {
                 let amountList = [];
                 let serviceList = [];
                 let services = [];
+                let cars = [];
                 let customerServices = [];
 
                 // find each customer
                 const customer = await Customer.findById(customers[i]._id);
+
+                /// Get the list of cars that a customer has
+                customer.cars_id.forEach(async (element) => {
+                    const car = await Car.findById(element);
+                    cars.push(car);
+                });
 
                 //Find all sales paid for by the customer found above
                 const sale = await Sale.find({ "customer_id": customers[i]._id });
@@ -75,7 +114,7 @@ class CustomerController {
                 for (let i = 0; i < services.length; i++) {
                     services[i].forEach(element => {
                         customerServices.push(element);
-                    }); 
+                    });
                 }
 
                 // calculate the total amount on each sale
@@ -90,6 +129,7 @@ class CustomerController {
                 // Create an object to house all require properties
                 let eachCustomer = {
                     customer,
+                    cars,
                     sale,
                     customerServices,
                     totalAmount,
@@ -162,6 +202,8 @@ class CustomerController {
             res.status(400).send({ success: false, message: e })
         }
     }
+
+
 
     static async deleteCustomer(req, res) {
         try {

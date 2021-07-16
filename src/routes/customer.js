@@ -10,6 +10,8 @@ router.get('/customers/:id', CustomerController.viewCustomer);
 
 router.patch('/customers/:id', CustomerController.updateCustomer);
 
+router.patch('/customers/addCar/:id', CustomerController.addCarToCustomer);
+
 router.delete('/customers/:id', CustomerController.deleteCustomer);
 
 module.exports = router

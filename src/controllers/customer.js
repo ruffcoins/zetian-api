@@ -203,8 +203,6 @@ class CustomerController {
         }
     }
 
-
-
     static async deleteCustomer(req, res) {
         try {
             const customer = await Customer.findByIdAndDelete(req.params.id)

@@ -3,6 +3,10 @@ const validator = require("validator");
 
 const Sale = mongoose.model('Sale', {
 
+    carRegNo: {
+        type: String,
+        required: true,
+    },
     customer_id: {
         required: true,
         type: mongoose.Schema.Types.ObjectId,

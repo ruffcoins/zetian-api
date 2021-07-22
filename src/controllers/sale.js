@@ -50,6 +50,7 @@ class SaleController {
             totalAmount = serviceAmountList.reduce((a, b) => a + b, 0);
 
             const sale = new Sale({
+                carRegNo: req.body.carRegNo,
                 customer_id: customer._id,
                 service_id: serviceIdList,
                 employee_id: req.body.employee_id,
@@ -59,16 +60,34 @@ class SaleController {
 
             await sale.save();
             res.status(201).send({ success: true, message: sale });
-            
+
         } catch (e) {
             res.status(400).send({ success: false, message: e })
         }
     }
 
     static async viewSales(req, res) {
+
+        let sales;
+        let car;
+
         try {
-            const sales = await Sale.find({})
-            res.send({ success: true, message: sales })
+            let allSales = [];
+
+            sales = await Sale.find({});
+
+            for (let i = 0; i < sales.length; i++) {
+                let sale = sales[i];
+
+                car = await Car.findOne({ "carRegNo": sale.carRegNo });
+
+                let eachSale = { sale, car };
+
+                allSales.push(eachSale);
+
+            }
+
+            res.send({ success: true, message: allSales })
         } catch (e) {
             res.status(500).send({ success: false, message: e })
         }

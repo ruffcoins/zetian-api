@@ -70,18 +70,25 @@ class SaleController {
 
         let sales;
         let car;
-
+        let customer;
+        let service;
         try {
             let allSales = [];
 
+            // Find all sales
             sales = await Sale.find({});
 
+            // Loop through all sales to get each customer, car and services associated with that sale
             for (let i = 0; i < sales.length; i++) {
                 let sale = sales[i];
 
                 car = await Car.findOne({ "carRegNo": sale.carRegNo });
+                customer = await Customer.findOne({ "_id": sale.customer_id });
 
-                let eachSale = { sale, car };
+                service = await Service.find({ "_id": sales[i].service_id });
+
+                // store results in an object
+                let eachSale = { sale, car, customer, service };
 
                 allSales.push(eachSale);
 

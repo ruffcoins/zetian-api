@@ -183,7 +183,7 @@ class CustomerController {
 
     static async updateCustomer(req, res) {
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['firstName', 'lastName', 'phoneNumber']
+        const allowedUpdates = ['firstName', 'lastName', 'phoneNumber', 'cars'];
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
         if (!isValidOperation) {
@@ -191,7 +191,16 @@ class CustomerController {
         }
 
         try {
-            const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+            const customer = await Customer.findByIdAndUpdate(
+                req.params.id, { firstName: req.body.firstName, lastName: req.body.lastName, phoneNumber: req.body.phoneNumber }, { new: true, runValidators: true }
+            )
+
+            for (let i = 0; i < req.body.cars.length; i++) {
+                const car = await Car.findByIdAndUpdate(
+                    req.body.cars[i].id, { carRegNo: req.body.cars[i].carRegNo, carMake: req.body.cars[i].carMake, carModel: req.body.cars[i].carModel }, { new: true, runValidators: true }
+                )
+            }
+
 
             if (!customer) {
                 return res.status(404).send({ success: false, message: "Customer not found" })

@@ -6,6 +6,7 @@ const serviceRouter = require('./src/routes/service');
 const saleRouter = require('./src/routes/sale');
 const expenseRouter = require('./src/routes/expense');
 const employeeRouter = require('./src/routes/employee');
+const dashboardRouter = require('./src/routes/dashboard');
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -23,6 +24,7 @@ app.use(serviceRouter);
 app.use(saleRouter);
 app.use(expenseRouter);
 app.use(employeeRouter);
+app.use(dashboardRouter);
 
 
 module.exports = {

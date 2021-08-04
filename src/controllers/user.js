@@ -1,7 +1,7 @@
-const User = require('../models/user')
+ const User = require('../models/user')
 
 class UserController {
-    static async addUser(req, res) {
+    static async addUser(req, res) { 
         const user = new User(req.body)
 
         try {
@@ -84,7 +84,8 @@ class UserController {
     static async userLogin(req, res) {
         try {
             const user = await User.findByCredentials(req.body.username, req.body.password);
-            res.send({ success: true, message: user })
+            const token = await user.generateAuthToken();
+            res.send({ success: true, message: user, token })
         } catch (e) {
             res.status(400).send({ success: false, message: "Wrong Username or Password" });
         }

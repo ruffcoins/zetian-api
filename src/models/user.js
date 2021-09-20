@@ -23,10 +23,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    employee_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'employee'
-    },
+    // employee_id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'employee'
+    // },
     role: {
         type: String,
         default: 'user'

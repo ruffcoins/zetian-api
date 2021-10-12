@@ -1,7 +1,7 @@
- const User = require('../models/user')
+const User = require('../models/user')
 
 class UserController {
-    static async addUser(req, res) { 
+    static async addUser(req, res) {
         const user = new User(req.body)
 
         try {

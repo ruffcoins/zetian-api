@@ -16,6 +16,35 @@ class UserController {
         }
     }
 
+    static async addAdminUser(req, res) {
+        const user = new User({
+            "username": req.body.username,
+            "password": req.body.password,
+            "role": 'admin'
+        })
+
+        try {
+            await user.save()
+            res.status(201).send({ success: true, message: user })
+        } catch (e) {
+            if (e.name === 'MongoError' && e.code === 11000) {
+                // Duplicate username
+                return res.status(422).send({ success: false, message: "Username already exists" });
+            }
+            res.status(400).send(e)
+        }
+    }
+
+    static async myProfile(req, res) {
+
+        try {
+            const user = req.user;
+            res.send({ success: true, message: user })
+        } catch (e) {
+            res.status(500).send({ success: false, message: e })
+        }
+    }
+
     static async viewUsers(req, res) {
         try {
             const users = await User.find({})
@@ -26,18 +55,18 @@ class UserController {
     }
 
     static async viewUser(req, res) {
-        const _id = req.params.id
+        const id = req.params.id.trim()
 
         try {
-            const user = await User.findById(_id)
+            const user = await User.findById(id)
 
             if (!user) {
                 return res.status(404).send({ success: false, message: "User not found" });
             }
 
-            res.send({ success: true, message: user })
+            return res.send({ success: true, message: user })
         } catch (e) {
-            res.status(500).send({ success: false, message: "User does not exist" });
+            return res.status(500).send({ success: false, message: "User does not exist" });
         }
     }
 
@@ -88,6 +117,23 @@ class UserController {
             res.send({ success: true, message: user, token })
         } catch (e) {
             res.status(400).send({ success: false, message: "Wrong Username or Password" });
+        }
+    }
+
+    static async logout(req, res) {
+        try {
+            const loggedInToken = req.headers.authorization.substr(7)
+            req.user.tokens = req.user.tokens.filter((token) => {
+                return token.token !== loggedInToken;
+            })
+
+            await req.user.save();
+
+            res.status(200).send({ success: true, message: "Logged out Successfully" });
+
+        } catch (e) {
+            res.status(500).send({ success: false, message: e });
+
         }
     }
 }

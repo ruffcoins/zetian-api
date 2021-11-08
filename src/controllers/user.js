@@ -116,7 +116,7 @@ class UserController {
             const token = await user.generateAuthToken();
             res.send({ success: true, message: user, token })
         } catch (e) {
-            res.status(400).send({ success: false, message: "Wrong Username or Password" });
+            res.status(404).send({ success: false, message: "Wrong Username or Password" });
         }
     }
 

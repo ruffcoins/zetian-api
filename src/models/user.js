@@ -23,10 +23,6 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    // employee_id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'employee'
-    // },
     role: {
         type: String,
         default: 'user'
@@ -46,7 +42,7 @@ userSchema.methods.toJSON = function () {
     delete userObject.password
     delete userObject.tokens
 
-    return userObject
+    return userObject;
 }
 
 userSchema.methods.generateAuthToken = async function () {
@@ -85,14 +81,6 @@ userSchema.pre('save', async function (next) {
 
     next()
 })
-
-// Delete user tasks when user is removed
-userSchema.pre('remove', async function (next) {
-    const user = this
-    await Task.deleteMany({ owner: user._id })
-    next()
-})
-
 
 const User = mongoose.model('User', userSchema)
 

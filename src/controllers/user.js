@@ -114,7 +114,7 @@ class UserController {
         try {
             const user = await User.findByCredentials(req.body.username, req.body.password);
             const token = await user.generateAuthToken();
-            res.status(200).send({ success: true, message: user, token })
+            res.status(200).send({ success: true, message: user, token });
         } catch (e) {
             res.status(404).send({ success: false, message: "Wrong Username or Password" });
         }

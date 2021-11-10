@@ -31,6 +31,8 @@ const Sale = mongoose.model('Sale', {
         required: true
     }
 
-});
+}, {
+    timestamps: true
+    });
 
 module.exports = Sale;

@@ -28,9 +28,8 @@ const expenseSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-
 },
-    { timestamps: { createdAt: 'created_at' } }
+    { timestamps: true }
 );
 
 const Expense = mongoose.model('Expense', expenseSchema);

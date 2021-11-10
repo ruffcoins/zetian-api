@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const Sale = mongoose.model('Sale', {
+const saleSchema = new mongoose.Schema({
 
     carRegNo: {
         type: String,
@@ -30,9 +30,9 @@ const Sale = mongoose.model('Sale', {
         type: Number,
         required: true
     }
+},  { timestamps: true}
+);
 
-}, {
-    timestamps: true
-    });
+const Sale = mongoose.model('Sale', saleSchema);
 
 module.exports = Sale;

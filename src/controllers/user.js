@@ -39,9 +39,9 @@ class UserController {
 
         try {
             const user = req.user;
-            res.send({ success: true, message: user })
+            res.status(200).send({ success: true, message: user })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            res.status(500).send({ success: false, message: e.message })
         }
     }
 
@@ -84,7 +84,6 @@ class UserController {
 
             updates.forEach((update) => user[update] = req.body[update]);
             await user.save();
-            // const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
 
             if (!user) {
                 return res.status(404).send({ success: false, message: "User not found" });
@@ -122,11 +121,7 @@ class UserController {
 
     static async logout(req, res) {
         try {
-            const loggedInToken = req.headers.authorization.substr(7)
-            req.user.tokens = req.user.tokens.filter((token) => {
-                return token.token !== loggedInToken;
-            })
-
+            req.user.tokens = [];
             await req.user.save();
 
             res.status(200).send({ success: true, message: "Logged out Successfully" });

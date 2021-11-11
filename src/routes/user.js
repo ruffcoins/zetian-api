@@ -8,7 +8,7 @@ const router = new express.Router();
 
 // User Routes
 
-router.post('/user', userAuth, UserController.addUser);
+router.post('/user', adminAuth, UserController.addUser);
 
 router.get('/users/:id', userAuth, UserController.viewUser);
 

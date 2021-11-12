@@ -4,14 +4,14 @@ const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
 const router = new express.Router();
 
-router.post('/service', userAuth, ServiceController.addService);
+router.post('/service', ServiceController.addService);
 
-router.get('/services', userAuth, ServiceController.viewServices);
+router.get('/services', ServiceController.viewServices);
 
-router.get('/services/:id', userAuth, ServiceController.viewService);
+router.get('/services/:id', ServiceController.viewService);
 
-router.patch('/services/:id', userAuth, ServiceController.updateService);
+router.patch('/services/:id', ServiceController.updateService);
 
-router.delete('/services/:id', adminAuth, ServiceController.deleteService);
+router.delete('/services/:id', ServiceController.deleteService);
 
 module.exports = router;

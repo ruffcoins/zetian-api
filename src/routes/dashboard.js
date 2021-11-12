@@ -4,6 +4,6 @@ const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
 const router = new express.Router()
 
-router.get('/dashboard', userAuth, DashboardController.dashboard);
+router.get('/dashboard', DashboardController.dashboard);
 
 module.exports = router

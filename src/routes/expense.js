@@ -4,13 +4,13 @@ const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
 const router = new express.Router()
 
-router.post('/expense', userAuth, ExpenseController.addExpense);
+router.post('/expense', ExpenseController.addExpense);
 
-router.get('/expenses', userAuth, ExpenseController.viewExpenses);
+router.get('/expenses', ExpenseController.viewExpenses);
 
-router.get('/expenses/recent', userAuth, ExpenseController.viewRecentExpenses);
+router.get('/expenses/recent', ExpenseController.viewRecentExpenses);
 
-router.get('/expenses/:id', userAuth, ExpenseController.viewExpense);
+router.get('/expenses/:id', ExpenseController.viewExpense);
 
 
 module.exports = router

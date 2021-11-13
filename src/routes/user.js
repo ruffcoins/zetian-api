@@ -8,13 +8,13 @@ const router = new express.Router();
 
 // User Routes
 
-router.post('/user', UserController.addUser);
+router.post('/user', adminAuth, UserController.addUser);
 
-router.get('/users/:id', UserController.viewUser);
+router.get('/users/:id', userAuth, UserController.viewUser);
 
-router.get('/user/profile', UserController.myProfile);
+router.get('/user/profile', userAuth, UserController.myProfile);
 
-router.post('/user/logout', UserController.logout);
+router.post('/user/logout', userAuth, UserController.logout);
 
 router.post('/users/login', UserController.userLogin);
 
@@ -22,13 +22,13 @@ router.post('/users/login', UserController.userLogin);
 
 // Admin Routes
 
-router.post('/user/admin', UserController.addAdminUser);
+router.post('/user/admin', adminAuth, UserController.addAdminUser);
 
-router.get('/users', UserController.viewUsers);
+router.get('/users', userAuth, UserController.viewUsers);
 
-router.patch('/users/:id', UserController.updateUser);
+router.patch('/users/:id', adminAuth, UserController.updateUser);
 
-router.delete('/users/:id', UserController.deleteUser);
+router.delete('/users/:id', adminAuth, UserController.deleteUser);
 
 
 

@@ -4,10 +4,10 @@ const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
 const router = new express.Router()
 
-router.post('/sale',  SaleController.addSale);
+router.post('/sale', userAuth,  SaleController.addSale);
 
-router.get('/sales', SaleController.viewSales);
+router.get('/sales', userAuth, SaleController.viewSales);
 
-router.get('/sales/:id', SaleController.viewSale);
+router.get('/sales/:id', userAuth, SaleController.viewSale);
 
 module.exports = router

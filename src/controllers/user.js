@@ -72,7 +72,7 @@ class UserController {
 
     static async updateUser(req, res) {
         const updates = Object.keys(req.body)
-        const allowedUpdates = ['username', 'password', 'employee_id']
+        const allowedUpdates = ['username', 'password']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
         if (!isValidOperation) {
@@ -91,7 +91,14 @@ class UserController {
 
             res.send({ success: true, message: user });
         } catch (e) {
-            res.status(400).send({ success: false, message: e });
+            
+            if (e.name === 'MongoError' && e.code === 11000) {
+                // Duplicate username
+                return res.status(422).send({ success: false, message: "Username already exists" });
+            } else {
+                res.status(400).send({ success: false, message: e });
+
+            }
         }
     }
 

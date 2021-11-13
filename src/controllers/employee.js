@@ -70,7 +70,13 @@ class EmployeeController {
 
             res.send({ success: true, message: employee })
         } catch (e) {
-            res.status(400).send({ success: false, message: e })
+            if (e.name === 'MongoError' && e.code === 11000) {
+                // Duplicate phone number
+                return res.status(422).send({ success: false, message: "Phone number already exists" });
+            } else {
+                res.status(400).send({ success: false, message: e });
+
+            }
         }
     }
 

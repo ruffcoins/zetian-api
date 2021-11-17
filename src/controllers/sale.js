@@ -115,6 +115,43 @@ class SaleController {
             res.status(500).send({ success: false, message: "Sale does not exist" })
         }
     }
+
+    static async recentTransactions(req, res) {
+
+        let sales;
+        let car;
+        let customer;
+        let service;
+        try {
+            let allSales = [];
+
+            // Find all sales
+            // sort all sales by date in descending order and limit to 10
+            sales = await Sale.find({}).sort({ date: -1 }).limit(10);
+            // sales = await Sale.find({}).sort({ date: -1 });
+            // sales = await Sale.find({});
+
+            // Loop through all sales to get each customer, car and services associated with that sale
+            for (let i = 0; i < sales.length; i++) {
+                let sale = sales[i];
+
+                car = await Car.findOne({ "carRegNo": sale.carRegNo });
+                customer = await Customer.findOne({ "_id": sale.customer_id });
+
+                service = await Service.find({ "_id": sales[i].service_id });
+
+                // store results in an object
+                let eachSale = { sale, car, customer, service };
+
+                allSales.push(eachSale);
+
+            }
+
+            res.send({ success: true, message: allSales })
+        } catch (e) {
+            res.status(500).send({ success: false, message: e })
+        }
+    }
 }
 
 module.exports = SaleController;

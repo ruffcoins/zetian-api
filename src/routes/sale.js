@@ -8,6 +8,8 @@ router.post('/sale', userAuth,  SaleController.addSale);
 
 router.get('/sales', userAuth, SaleController.viewSales);
 
+router.get('/sales/recent', userAuth, SaleController.recentTransactions);
+
 router.get('/sales/:id', userAuth, SaleController.viewSale);
 
 module.exports = router

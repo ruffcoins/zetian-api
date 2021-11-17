@@ -8,8 +8,6 @@ const router = new express.Router();
 
 // User Routes
 
-router.post('/user', adminAuth, UserController.addUser);
-
 router.get('/users/:id', userAuth, UserController.viewUser);
 
 router.get('/user/profile', userAuth, UserController.myProfile);
@@ -21,6 +19,8 @@ router.post('/users/login', UserController.userLogin);
 
 
 // Admin Routes
+
+router.post('/user', adminAuth, UserController.addUser);
 
 router.post('/user/admin', adminAuth, UserController.addAdminUser);
 

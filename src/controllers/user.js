@@ -8,7 +8,7 @@ class UserController {
 
             // check if user password is less than 7 characters and if it doesn't contain the word 'password'
             if (user.password.length < 7 || user.password.includes('password')) {
-                return res.status(422).send({ success: false, message: 'Password must be at least 7 characters and not contain the word "password"' });
+                return res.status(412).send({ success: false, message: 'Password must be at least 7 characters and not contain the word "password"' });
             }
 
             await user.save()

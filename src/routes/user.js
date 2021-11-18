@@ -8,6 +8,8 @@ const router = new express.Router();
 
 // User Routes
 
+router.get('/users', userAuth, UserController.viewUsers);
+
 router.get('/users/:id', userAuth, UserController.viewUser);
 
 router.get('/user/profile', userAuth, UserController.myProfile);
@@ -23,8 +25,6 @@ router.post('/users/login', UserController.userLogin);
 router.post('/user', adminAuth, UserController.addUser);
 
 router.post('/user/admin', adminAuth, UserController.addAdminUser);
-
-router.get('/users', userAuth, UserController.viewUsers);
 
 router.patch('/users/:id', adminAuth, UserController.updateUser);
 

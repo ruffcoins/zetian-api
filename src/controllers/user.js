@@ -5,6 +5,12 @@ class UserController {
         const user = new User(req.body)
 
         try {
+
+            // check if user password is less than 7 characters and if it doesn't contain the word 'password'
+            if (user.password.length < 7 || user.password.includes('password')) {
+                return res.status(422).send({ success: false, message: 'Password must be at least 7 characters and not contain the word "password"' });
+            }
+
             await user.save()
             res.status(201).send({ success: true, message: user })
         } catch (e) {
@@ -91,7 +97,7 @@ class UserController {
 
             res.send({ success: true, message: user });
         } catch (e) {
-            
+
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate username
                 return res.status(422).send({ success: false, message: "Username already exists" });

@@ -81,7 +81,7 @@ class CustomerController {
             const customers = await Customer.find({});
 
             // Perform an action for each customer in the customers list
-            for (let i = 0; i < customers.length; i++) {
+            for (let i = 0; i <= customers.length; i++) {
                 let amountList = [];
                 let serviceList = [];
                 let services = [];

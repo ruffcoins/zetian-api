@@ -25,17 +25,17 @@ class CustomerController {
 
                 await customer.save();
 
-                res.status(201).send({ success: true, message: customer });
+                return res.status(201).send({ success: true, message: customer });
             } catch (e) {
 
-                res.status(400).send({ success: false, message: e });
+                return res.status(400).send({ success: false, message: e });
             }
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate Car Registeration Number
                 return res.status(422).send({ success: false, message: "Car Registeration Number already exists" });
             }
-            res.status(400).send({ success: false, message: e });
+            return res.status(400).send({ success: false, message: e });
         }
 
     }
@@ -63,11 +63,11 @@ class CustomerController {
 
             const newCustomer = await Customer.findById(_id);
 
-            res.send({ success: true, message: newCustomer });
+            return res.send({ success: true, message: newCustomer });
 
         } catch (e) {
 
-            res.status(400).send({ success: false, message: e });
+            return res.status(400).send({ success: false, message: e });
         }
 
     }
@@ -141,9 +141,9 @@ class CustomerController {
             }
 
 
-            res.send({ success: true, message: allCustomers });
+            return res.send({ success: true, message: allCustomers });
         } catch (e) {
-            res.status(500).send({ success: false, message: e });
+            return res.status(500).send({ success: false, message: e });
         }
     }
 
@@ -175,9 +175,9 @@ class CustomerController {
 
             const carCount = customer.cars_id.length;
 
-            res.send({ success: true, message: customer, transactionCount, totalAmount, carCount });
+            return res.send({ success: true, message: customer, transactionCount, totalAmount, carCount });
         } catch (e) {
-            res.status(500).send({ success: false, message: "Customer does not exist" })
+            return res.status(500).send({ success: false, message: "Customer does not exist" })
         }
     }
 
@@ -206,9 +206,9 @@ class CustomerController {
                 return res.status(404).send({ success: false, message: "Customer not found" })
             }
 
-            res.send({ success: true, message: customer })
+            return res.send({ success: true, message: customer })
         } catch (e) {
-            res.status(400).send({ success: false, message: e })
+            return res.status(400).send({ success: false, message: e })
         }
     }
 
@@ -220,9 +220,9 @@ class CustomerController {
                 return res.status(404).send({ success: false, message: "Customer not found" })
             }
 
-            res.send({ success: true, message: customer })
+            return res.send({ success: true, message: customer })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 }

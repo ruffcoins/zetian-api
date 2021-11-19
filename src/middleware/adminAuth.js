@@ -9,16 +9,17 @@ const adminAuth = async (req, res, next) => {
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token, role: "admin" });
 
         if (!user) {
-            res.status(401).send({
+            return res.status(401).send({
                 success: false,
                 message: 'Administrator Authentication Needed',
             });
+
         }
 
         req.user = user;
         next();
     } catch (e) {
-        res.status(401).send({ success: false, message: "Administrator Authentication Needed" });
+        return res.status(401).send({ success: false, message: "Administrator Authentication Needed" });
     }
 }
 

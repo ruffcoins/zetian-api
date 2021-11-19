@@ -8,8 +8,12 @@ const userAuth = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
 
+        //If user is not found, return an error
+
+
+
         if (!user) {
-            res.status(401).send({
+            return res.status(401).send({
                 success: false,
                 message: 'Please Authenticate',
             });
@@ -18,7 +22,7 @@ const userAuth = async (req, res, next) => {
         req.user = user;
         next();
     } catch (e) {
-        res.status(401).send({ success: false, message: "Please Authenticate" });
+        return res.status(401).send({ success: false, message: "Please Authenticate" });
     }
 }
 

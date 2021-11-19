@@ -59,10 +59,10 @@ class SaleController {
             });
 
             await sale.save();
-            res.status(201).send({ success: true, message: sale });
+            return res.status(201).send({ success: true, message: sale });
 
         } catch (e) {
-            res.status(400).send({ success: false, message: e })
+            return res.status(400).send({ success: false, message: e })
         }
     }
 
@@ -94,9 +94,9 @@ class SaleController {
 
             }
 
-            res.send({ success: true, message: allSales })
+            return res.send({ success: true, message: allSales })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 
@@ -110,9 +110,9 @@ class SaleController {
                 return res.status(404).send({ success: false, message: "Sale not found" });
             }
 
-            res.send({ success: true, message: sale })
+            return res.send({ success: true, message: sale })
         } catch (e) {
-            res.status(500).send({ success: false, message: "Sale does not exist" })
+            return res.status(500).send({ success: false, message: "Sale does not exist" })
         }
     }
 
@@ -147,9 +147,9 @@ class SaleController {
 
             }
 
-            res.send({ success: true, message: allSales })
+            return res.send({ success: true, message: allSales })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 }

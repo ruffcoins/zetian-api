@@ -3,6 +3,7 @@ const Car = require('../models/car');
 const Sale = require('../models/sale');
 const Service = require('../models/service');
 const Employee = require('../models/employee');
+const User = require('../models/user');
 
 class DashboardController {
     static async dashboard(req, res) {

@@ -28,7 +28,12 @@ class DashboardController {
 
             });
 
-            res.send({ success: true, message: { serviceCount, salesCount, customersCount, employeeCount }});
+            // User Count
+            const userCount = await Car.countDocuments({
+
+            });
+
+            res.send({ success: true, message: { serviceCount, salesCount, customersCount, employeeCount, userCount } });
             
         } catch (e) {
             res.status(500).send({ success: false, message: e });

@@ -12,13 +12,13 @@ class UserController {
             }
 
             await user.save()
-            res.status(201).send({ success: true, message: user })
+            return res.status(201).send({ success: true, message: user })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate username
                 return res.status(422).send({ success: false, message: "Username already exists" });
             }
-            res.status(400).send(e)
+            return res.status(400).send(e)
         }
     }
 
@@ -31,13 +31,13 @@ class UserController {
 
         try {
             await user.save()
-            res.status(201).send({ success: true, message: user })
+            return res.status(201).send({ success: true, message: user })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate username
                 return res.status(422).send({ success: false, message: "Username already exists" });
             }
-            res.status(400).send(e)
+            return res.status(400).send(e)
         }
     }
 
@@ -45,18 +45,18 @@ class UserController {
 
         try {
             const user = req.user;
-            res.status(200).send({ success: true, message: user })
+            return res.status(200).send({ success: true, message: user })
         } catch (e) {
-            res.status(500).send({ success: false, message: e.message })
+            return res.status(500).send({ success: false, message: e.message })
         }
     }
 
     static async viewUsers(req, res) {
         try {
             const users = await User.find({})
-            res.send({ success: true, message: users })
+            return res.send({ success: true, message: users })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 
@@ -95,14 +95,14 @@ class UserController {
                 return res.status(404).send({ success: false, message: "User not found" });
             }
 
-            res.send({ success: true, message: user });
+            return res.send({ success: true, message: user });
         } catch (e) {
 
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate username
                 return res.status(422).send({ success: false, message: "Username already exists" });
             } else {
-                res.status(400).send({ success: false, message: e });
+                return res.status(400).send({ success: false, message: e });
 
             }
         }
@@ -116,9 +116,9 @@ class UserController {
                 return res.status(404).send({ success: false, message: "User not found" })
             }
 
-            res.send({ success: true, message: user })
+            return res.send({ success: true, message: user })
         } catch (e) {
-            res.status(500).send({ success: false, message: "User does not exist" });
+            return res.status(500).send({ success: false, message: "User does not exist" });
         }
     }
 
@@ -126,9 +126,9 @@ class UserController {
         try {
             const user = await User.findByCredentials(req.body.username, req.body.password);
             const token = await user.generateAuthToken();
-            res.status(200).send({ success: true, message: user, token });
+            return res.status(200).send({ success: true, message: user, token });
         } catch (e) {
-            res.status(404).send({ success: false, message: "Wrong Username or Password" });
+            return res.status(404).send({ success: false, message: "Wrong Username or Password" });
         }
     }
 
@@ -137,10 +137,10 @@ class UserController {
             req.user.tokens = [];
             await req.user.save();
 
-            res.status(200).send({ success: true, message: "Logged out Successfully" });
+            return res.status(200).send({ success: true, message: "Logged out Successfully" });
 
         } catch (e) {
-            res.status(500).send({ success: false, message: e });
+            return res.status(500).send({ success: false, message: e });
 
         }
     }

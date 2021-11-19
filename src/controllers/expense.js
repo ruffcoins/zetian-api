@@ -21,13 +21,13 @@ class ExpenseController {
                 employee_name: employeeName
             });
             await expense.save()
-            res.status(201).send({ success: true, message: expense })
+            return res.status(201).send({ success: true, message: expense })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate phone number
                 return res.status(422).send({ success: false, message: "Expense already exists" });
             }
-            res.status(400).send(e)
+            return res.status(400).send(e)
         }
     }
 
@@ -36,9 +36,9 @@ class ExpenseController {
         try {
             const expenses = await Expense.find({}).sort({ created_at: 1 });
 
-            res.send({ success: true, message: expenses })
+            return res.send({ success: true, message: expenses })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 

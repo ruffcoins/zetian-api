@@ -76,7 +76,9 @@ class SaleController {
             let allSales = [];
 
             // Find all sales
-            sales = await Sale.find({});
+            sales = await Sale.find({}).sort({ date: -1 });
+
+            // sales = await Sale.find({});
 
             // Loop through all sales to get each customer, car and services associated with that sale
             for (let i = 0; i < sales.length; i++) {
@@ -125,11 +127,7 @@ class SaleController {
         try {
             let allSales = [];
 
-            // Find all sales
-            // sort all sales by date in descending order and limit to 10
             sales = await Sale.find({}).sort({ date: -1 }).limit(10);
-            // sales = await Sale.find({}).sort({ date: -1 });
-            // sales = await Sale.find({});
 
             // Loop through all sales to get each customer, car and services associated with that sale
             for (let i = 0; i < sales.length; i++) {

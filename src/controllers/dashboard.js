@@ -34,10 +34,10 @@ class DashboardController {
 
             });
 
-            res.send({ success: true, message: { serviceCount, salesCount, customersCount, employeeCount, userCount } });
+            return res.send({ success: true, message: { serviceCount, salesCount, customersCount, employeeCount, userCount } });
             
         } catch (e) {
-            res.status(500).send({ success: false, message: e });
+            return res.status(500).send({ success: false, message: e });
         }
     
     }

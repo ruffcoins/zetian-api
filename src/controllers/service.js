@@ -9,22 +9,22 @@ class ServiceController {
 
         try {
             await service.save()
-            res.status(201).send({ success: true, message: service })
+            return res.status(201).send({ success: true, message: service })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate phone number
                 return res.status(422).send({ success: false, message: "Service already exists" });
             }
-            res.status(400).send(e)
+            return res.status(400).send(e)
         }
     }
 
     static async viewServices(req, res) {
         try {
             const services = await Service.find({})
-            res.send({ success: true, message: services })
+            return res.send({ success: true, message: services })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 
@@ -38,9 +38,9 @@ class ServiceController {
                 return res.status(404).send({ success: false, message: "Service not found" });
             }
 
-            res.send({ success: true, message: service })
+            return res.send({ success: true, message: service })
         } catch (e) {
-            res.status(500).send({ success: false, message: "Servcie does not exist" })
+            return res.status(500).send({ success: false, message: "Servcie does not exist" })
         }
     }
 
@@ -60,9 +60,9 @@ class ServiceController {
                 return res.status(404).send({ success: false, message: "Service not found" });
             }
 
-            res.send({ success: true, message: service });
+            return res.send({ success: true, message: service });
         } catch (e) {
-            res.status(400).send({ success: false, message: e });
+            return res.status(400).send({ success: false, message: e });
         }
     }
 
@@ -74,9 +74,9 @@ class ServiceController {
                 return res.status(404).send({ success: false, message: "Service not found" })
             }
 
-            res.send({ success: true, message: service })
+            return res.send({ success: true, message: service })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 }

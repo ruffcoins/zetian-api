@@ -16,6 +16,18 @@ class EmployeeController {
         })
 
         try {
+
+            // check if employee firstname and lastname already exists
+            const existingEmployee = await Employee.findOne({ firstName: employee.firstName, lastName: employee.lastName })
+
+            if (existingEmployee) {
+                return res.status(412).send({
+                    success: false,
+                    message: "Employee name is taken"
+                });
+            }
+
+            // if employee doesn't exist, create new employee
             await employee.save()
             return res.status(201).send({ success: true, message: employee })
         } catch (e) {

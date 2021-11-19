@@ -17,22 +17,22 @@ class EmployeeController {
 
         try {
             await employee.save()
-            res.status(201).send({ success: true, message: employee })
+            return res.status(201).send({ success: true, message: employee })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate phone number
                 return res.status(422).send({ success: false, message: "Phone number already exists" });
             }
-            res.status(400).send(e)
+            return res.status(400).send(e)
         }
     }
 
     static async viewEmployees(req, res) {
         try {
             const employees = await Employee.find({})
-            res.send({ success: true, message: employees })
+            return res.send({ success: true, message: employees })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 
@@ -46,9 +46,9 @@ class EmployeeController {
                 return res.status(404).send({ success: false, message: "Employee not found" });
             }
 
-            res.send({ success: true, message: employee })
+            return res.send({ success: true, message: employee })
         } catch (e) {
-            res.status(500).send({ success: false, message: "Employee does not exist" })
+            return res.status(500).send({ success: false, message: "Employee does not exist" })
         }
     }
 
@@ -68,13 +68,13 @@ class EmployeeController {
                 return res.status(404).send({ success: false, message: "Employee not found" })
             }
 
-            res.send({ success: true, message: employee })
+            return res.send({ success: true, message: employee })
         } catch (e) {
             if (e.name === 'MongoError' && e.code === 11000) {
                 // Duplicate phone number
                 return res.status(422).send({ success: false, message: "Phone number already exists" });
             } else {
-                res.status(400).send({ success: false, message: e });
+                return res.status(400).send({ success: false, message: e });
 
             }
         }
@@ -88,9 +88,9 @@ class EmployeeController {
                 return res.status(404).send({ success: false, message: "Employee not found" })
             }
 
-            res.send({ success: true, message: employee })
+            return res.send({ success: true, message: employee })
         } catch (e) {
-            res.status(500).send({ success: false, message: e })
+            return res.status(500).send({ success: false, message: e })
         }
     }
 }

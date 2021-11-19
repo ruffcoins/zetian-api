@@ -25,6 +25,9 @@ class CustomerController {
 
                 await customer.save();
 
+                //update customer id in car
+                await Car.findByIdAndUpdate(car._id, { $set: { customerId: customer._id } }, { new: true, runValidators: true });
+
                 return res.status(201).send({ success: true, message: customer });
             } catch (e) {
 
@@ -60,6 +63,8 @@ class CustomerController {
 
             // find by document id and update and push item in array
             await Customer.findByIdAndUpdate(req.params.id, { $push: { cars_id: carId } }, { new: true, runValidators: true });
+            await Car.findByIdAndUpdate(car._id, { $set: { customerId: customer._id } }, { new: true, runValidators: true });
+
 
             const newCustomer = await Customer.findById(_id);
 
@@ -92,10 +97,16 @@ class CustomerController {
                 const customer = await Customer.findById(customers[i]._id);
 
                 /// Get the list of cars that a customer has
+                // const carList = await Car.find({ "customerId": customer._id });
+
+                // console.log(carList);
+
                 customer.cars_id.forEach(async (element) => {
                     const car = await Car.findById(element);
                     cars.push(car);
                 });
+
+                // console.log(`new ${cars}`);
 
                 //Find all sales paid for by the customer found above
                 const sale = await Sale.find({ "customer_id": customers[i]._id });

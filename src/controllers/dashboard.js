@@ -30,7 +30,7 @@ class DashboardController {
             });
 
             // User Count
-            const userCount = await Car.countDocuments({
+            const userCount = await User.countDocuments({
 
             });
 
